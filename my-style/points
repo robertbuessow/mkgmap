@@ -8,6 +8,12 @@
 # and http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
 # for more information.
 
+railway=* { deletealltags }
+amenity=* & amenity!=drinking_water & amenity!=toilets & amenity!=shelter { deletealltags }
+leisure=* { deletealltags }
+sport=* { deletealltags }
+
+
 addr:housenumber=* {set mkgmap:execute_finalize_rules=true}
 
 # impose routing/speed restrictions due to access/barrier. See option --link-pois-to-ways
@@ -287,32 +293,32 @@ sport=skiing [0x2d06 resolution 24]
 sport=swimming [0x2d09 resolution 24]
 
 tourism=alpine_hut [0x2b02 resolution 24]
-tourism=attraction & historic=* [0x2c02 resolution 24]
-tourism=attraction [0x2c04 resolution 24]
-tourism=artwork [0x2c04 resolution 24]
-tourism=aquarium [0x2c07 resolution 24]
-tourism=bed_and_breakfast [0x2b02 resolution 24]
+# tourism=attraction & historic=* [0x2c02 resolution 24]
+# tourism=attraction [0x2c04 resolution 24]
+# tourism=artwork [0x2c04 resolution 24]
+# tourism=aquarium [0x2c07 resolution 24]
+# tourism=bed_and_breakfast [0x2b02 resolution 24]
 # NB: different devices use different codes for camp/caravan_site, have both!
-tourism=camp_site [0x2b03 resolution 24] [0x2b05 resolution 24]
-tourism=caravan_site [0x2b03 resolution 24] [0x2b05 resolution 24]
-tourism=chalet [0x2b02 resolution 24]
-tourism=guest_house [0x2b02 resolution 24]
-tourism=hostel [0x2b02 resolution 24]
+# tourism=camp_site [0x2b03 resolution 24] [0x2b05 resolution 24]
+# tourism=caravan_site [0x2b03 resolution 24] [0x2b05 resolution 24]
+# tourism=chalet [0x2b02 resolution 24]
+# tourism=guest_house [0x2b02 resolution 24]
+# tourism=hostel [0x2b02 resolution 24]
 # Have both hotel &| restaurant POIs
-tourism=hotel | tourism=motel {set tmp:stopMopUp=yes} [0x2b01 resolution 24 continue with_actions]
-tourism=information [0x4c00 resolution 24]
+# tourism=hotel | tourism=motel {set tmp:stopMopUp=yes} [0x2b01 resolution 24 continue with_actions]
+# tourism=information [0x4c00 resolution 24]
 # tourism=lean_to replaces some uses of amenity=shelter
-tourism=lean_to [0x2b05 resolution 24 default_name 'lean-to']
-tourism=wilderness_hut [0x2b07 resolution 24 default_name 'wilderness hut']
-tourism=museum [0x2c02 resolution 24]
-tourism=picnic_site [0x4a00 resolution 24]
-tourism=resort [0x2b04 resolution 24]
-tourism=theme_park [0x2c01 resolution 24]
-tourism=viewpoint {name '${name} - ${description}' | '${name}'} [0x2c04 resolution 24]
-tourism=wine_cellar [0x2c0a resolution 24]
-tourism=zoo [0x2c07 resolution 24]
-tourism=* & name!=* & tourism!=yes & tourism!=no {set name='${tourism|subst:"_=> "}'}
-tourism=* & tourism!=no & tmp:stopMopUp!=yes [0x2c0d resolution 24]
+# tourism=lean_to [0x2b05 resolution 24 default_name 'lean-to']
+# tourism=wilderness_hut [0x2b07 resolution 24 default_name 'wilderness hut']
+# tourism=museum [0x2c02 resolution 24]
+# tourism=picnic_site [0x4a00 resolution 24]
+# tourism=resort [0x2b04 resolution 24]
+# tourism=theme_park [0x2c01 resolution 24]
+# tourism=viewpoint {name '${name} - ${description}' | '${name}'} [0x2c04 resolution 24]
+# tourism=wine_cellar [0x2c0a resolution 24]
+# tourism=zoo [0x2c07 resolution 24]
+# tourism=* & name!=* & tourism!=yes & tourism!=no {set name='${tourism|subst:"_=> "}'}
+# tourism=* & tourism!=no & tmp:stopMopUp!=yes [0x2c0d resolution 24]
 
 # amenity=restaurant/fast_food/cafe/pub and shop=* can use cuisine, so have cuisine section later than where the others
 # should take precedence

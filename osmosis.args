@@ -1,0 +1,7 @@
+--read-pbf INPUT
+--tf accept-nodes
+--tf accept-ways
+--tf reject-ways leisure=playground,railway=tram,highway=bus_stop
+--tf accept-relations
+--tf reject-relations leisure=playground
+--used-node

@@ -6,13 +6,15 @@
 
 # A short one line description of the style
 #
-summary: My cycling style
+summary: The default style
 
 # Version of the style itself
 #
-version=0.1
+version=1.0
 
 # A longer description of the style.
 description {
-My cycling style.
+The default style.  This is a heavyweight style that is
+designed for use when mapping and especially in lightly covered
+areas.
 }

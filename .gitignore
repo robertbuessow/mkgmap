@@ -1,0 +1,7 @@
+in/*
+work/*
+out/*
+mkgmap-r*/*
+splitter-r*/*
+osmosis-*/*
+*.swp
