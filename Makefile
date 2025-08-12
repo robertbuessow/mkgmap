@@ -3,7 +3,7 @@ WORK_DIR = work
 OUT_DIR = out
 STYLE_DIR = my-style
 STYLE_FILES = $(wildcard $(STYLE_DIR)/*)
-TYP_FILES = $(wildcard typ-files/*)
+TYP_FILES = $(wildcard typ-files/20011.txt)
 
 OSMOSIS_VERSION = 0.49.2
 OSMOSIS = osmosis-$(OSMOSIS_VERSION)
@@ -16,35 +16,37 @@ $(OSMOSIS).tar:
 $(OSMOSIS): $(OSMOSIS).tar
 	tar xf $(OSMOSIS).tar
 
-$(SPLITTER).tar.gz: 
-	wget https://www.mkgmap.org.uk/download/$(SPLITTER).tar.gz
+$(SPLITTER).tar.gz:
+	wget --directory-prefix=$(IN_DIR) https://www.mkgmap.org.uk/download/$(SPLITTER).tar.gz
 
 $(SPLITTER): $(SPLITTER).tar.gz
-	tar xzf $(SPLITTER).tar.gz
+	tar xzf $(IN_DIR)/$(SPLITTER).tar.gz
 
-$(MKGMAP).tar.gz: 
-	wget https://www.mkgmap.org.uk/download/$(MKGMAP).tar.gz
+$(MKGMAP).tar.gz:
+	wget --directory-prefix=$(IN_DIR) https://www.mkgmap.org.uk/download/$(MKGMAP).tar.gz
 
 $(MKGMAP): $(MKGMAP).tar.gz
-	tar xzf $(MKGMAP).tar.gz
+	tar xzf $(IN_DIR)/$(MKGMAP).tar.gz
 
 $(IN_DIR)/%-latest.osm.pbf:
 	wget --directory-prefix=$(IN_DIR) https://download.geofabrik.de/europe/$(notdir $@)
 
+# Unused
 $(WORK_DIR)/%-filtered.osm.pbf: $(IN_DIR)/%-latest.osm.pbf osmosis.args
-	@cmd=`sed s=INPUT=$<=g osmosis.args | xargs -J % $(OSMOSIS)/bin/osmosis % --write-pbf $@`; \
+	@cmd="sed s=INPUT=$<=g osmosis.args | xargs -J % $(OSMOSIS)/bin/osmosis % --write-pbf $@"; \
 	echo $cmd; \
 	$cmd
 
-$(WORK_DIR)/%/split: $(WORK_DIR)/%-filtered.osm.pbf $(SPLITTER) Makefile
-	java -jar splitter-r654/splitter.jar --output-dir=$(dir $@) $<
+#$(WORK_DIR)/%/split: $(WORK_DIR)/%-filtered.osm.pbf $(SPLITTER) Makefile
+$(WORK_DIR)/%/split: $(IN_DIR)/%-latest.osm.pbf $(SPLITTER) Makefile
+	java -jar $(SPLITTER)/splitter.jar --output-dir=$(dir $@) $<
 	touch $(dir $@)/split
 
 $(OUT_DIR)/%.img: $(WORK_DIR)/%/split my.cfg $(MKGMAP) $(STYLE_FILES) $(TYP_FILES) Makefile
 	country=`basename $@ .img`; \
 	mkdir -p $(OUT_DIR); \
 	cd $(WORK_DIR)/$$country; \
-	java -Xms5g -Xmx10g -XX:+UseParallelGC -jar ../../$(MKGMAP)/mkgmap.jar \
+	java -Xms5g -Xmx10g -XX:+UseParallelGC -Dlog.config=../../logging.properties -jar ../../$(MKGMAP)/mkgmap.jar \
 	    --style-file=../../$(STYLE_DIR) \
 		--country-name=$$country \
 		--read-config=../../my.cfg \
@@ -65,7 +67,6 @@ cleanall: clean
 	rm -rf $(MKGMAP)
 
 .PHONY: clean cleanall
-.PRECIOUS: $(IN_DIR)/%-latest.osm.pbf
+.PRECIOUS: $(wildcard $(IN_DIR)/*)
 .PRECIOUS: $(WORK_DIR)/%/split
 .PRECIOUS: $(OUT_DIR)/%.img
-
