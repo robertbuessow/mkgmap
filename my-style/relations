@@ -128,3 +128,15 @@ type=route & route=road & historic!=yes & ref=*
         add ref='${ref}';
     }
 }
+
+type=route & route=bicycle & network=*
+{
+    add ref='${name}'; # if ref is missing, use name
+    set ref='${ref}' | '${network}';
+    apply {
+        set mkgmap:route='$(mkgmap:route),${ref}' | '${ref}'
+        add route='bicycle';
+        add ref='${ref}';
+        add network='${network}';
+    }
+}

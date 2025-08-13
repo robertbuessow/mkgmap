@@ -67,6 +67,12 @@ mkgmap:exit_hint=true {
 mkgmap:exit_hint=true | mkgmap:dest_hint=* {name '${tmp:exit_hint} ${tmp:dest_hint}' | '${tmp:dest_hint}' | '${tmp:exit_hint}'}
 # end of rules for process-exits and process-destination options
 
+route=bicycle {
+    set mkgmap:label:1='${ref|highway-symbol:round}';
+    set mkgmap:bicycle=yes;
+} [0x19 resolution 18]
+
+
 # Flag paved roads
 highway=* & (surface=asphalt | surface=paved | surface=sett |
     surface=concrete | surface=concrete:lanes | surface=concrete:plates |
@@ -110,7 +116,7 @@ highway=path & (designation=permissive_bridleway | designation=public_bridleway)
     {set highway=bridleway; add foot=yes}
 highway=path & (designation=permissive_footpath | designation=public_footpath)
     {set highway=footway; add foot=designated}
-highway=path & snowplowing!=no & (bicycle=designated | bicycle=permissive | bicycle=official | cycleway=lane)
+highway=path & snowplowing!=no & (bicycle=designated | bicycle=official | cycleway=lane)
     {set highway=cycleway; add foot=yes}
 highway=path & foot=designated
     {set highway=footway}
@@ -280,7 +286,7 @@ include 'inc/address';
 include 'inc/roadspeed';
 # calculate the access rules
 include 'inc/access';
-                                   
+
 #limit artificial cycleways to resolution 24
 mkgmap:synthesised=yes & mkgmap:bicycle=yes {set mkgmap:highest-resolution-only=true}
 
