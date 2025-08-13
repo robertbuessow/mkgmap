@@ -8,6 +8,8 @@
 # and http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
 # for more information.
 
+amenity=* & amenity!=drinking_water & amenity!=toilets & amenity!=shelter { deletealltags }
+
 addr:housenumber=* {set mkgmap:execute_finalize_rules=true}
 
 abandoned=yes {deletealltags}  # old, depreciated, ambiguous, method of handling abandoned
@@ -116,8 +118,8 @@ highway=path & (designation=permissive_bridleway | designation=public_bridleway)
     {set highway=bridleway; add foot=yes}
 highway=path & (designation=permissive_footpath | designation=public_footpath)
     {set highway=footway; add foot=designated}
-highway=path & snowplowing!=no & (bicycle=designated | bicycle=official | cycleway=lane)
-    {set highway=cycleway; add foot=yes}
+highway=path & (bicycle=designated | bicycle=official | cycleway=lane)
+    {set highway=cycleway; add foot=yes; set bicycle=yes}
 highway=path & foot=designated
     {set highway=footway}
 
@@ -189,12 +191,12 @@ highway=yes {set highway=footway}  # fix common bad tagging - little bits of pat
 # Some countries allow, others disallow bicycling on pedestrian streets. See inc/access_country
 
 # highway=pedestrian could be closed polygon to represent a 'square', add route regardless and continue for polygon processing
-highway=pedestrian {set tmp:stopMopUp=yes} [0x16 road_class=0 road_speed=0 resolution 22 continue with_actions]
+highway=pedestrian {set tmp:stopMopUp=yes} [0x07 road_class=0 road_speed=0 resolution 22 continue with_actions]
 
 highway=living_street [0x06 road_class=0 road_speed=1 resolution 22]
 highway=residential [0x06 road_class=0 road_speed=2 resolution 22]
 highway=bridleway [0x07 road_class=0 road_speed=0 resolution 23]
-highway=byway [0x16 road_class=0 road_speed=0 resolution 23]
+highway=byway [0x07 road_class=0 road_speed=0 resolution 23]
 
 highway=driveway {set highway=service; add service=driveway}  # fix common bad tagging
 highway=access  {set highway=service}  # fix common bad tagging
@@ -207,11 +209,11 @@ highway=service [0x07 road_class=0 road_speed=2 resolution 22]
 highway=cycleway [0x11 road_class=0 road_speed=1 resolution 23]
 
 # highway=footway is often an area as well, continue for polygon processing
-highway=footway {set tmp:stopMopUp=yes} [0x16 road_class=0 road_speed=0 resolution 23 continue with_actions]
+highway=footway {set tmp:stopMopUp=yes} [0x08 road_class=0 road_speed=0 resolution 23 continue with_actions]
 
 highway=trail {set highway=path; add bicycle=no}  # fix common bad tagging
 
-highway=path [0x16 road_class=0 road_speed=0 resolution 23]
+highway=path & bicycle=yes [0x16 road_class=0 road_speed=0 resolution 23]
 highway=track [0x0a road_class=0 road_speed=1 resolution 22]
 highway=unsurfaced [0x0a road_class=0 road_speed=1 resolution 22]
 highway=road {add mkgmap:dead-end-check=false} [0x06 road_class=0 road_speed=1 resolution 22]
@@ -237,7 +239,7 @@ highway=rest_area | highway=services {set tmp:stopMopUp=yes}
 #natural=coastline [0x15 resolution 12]
 power=line [0x29 resolution 21]
 
-railway=platform & tmp:stopMopUp!=yes [0x16 road_class=0 road_speed=0 resolution 23]
+railway=platform & tmp:stopMopUp!=yes [0x07 road_class=0 road_speed=0 resolution 23]
 # Railway lines, note that many devices display type 0x14 only at resolution 24
 (railway=rail | railway=tram | railway=disused | railway=subway | railway=narrow_gauge | railway=light_rail | railway=preserved) & !(tunnel=yes)
     [0x14 resolution 22]
@@ -256,7 +258,7 @@ boundary=administrative [0x1c resolution 22]
 boundary=national [0x1e resolution 17]
 boundary=political [0x1c resolution 19]
 
-barrier=wall | barrier=fence | barrier=hedge | barrier=ditch {add name='${barrier|subst:"_=> "}'} [0x17 resolution 24]
+barrier=wall | barrier=fence | barrier=hedge | barrier=ditch [0x17 resolution 24]
 
 route=ferry & (toll=no | toll=false) {set mkgmap:toll=no}
 route=ferry {set mkgmap:numbers=false; set mkgmap:ferry=1; add mkgmap:toll=yes}

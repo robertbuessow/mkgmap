@@ -1875,7 +1875,7 @@ CustomColor=No
 [_line]
 Type=0x11
 UseOrientation=N
-LineWidth=2
+LineWidth=3
 Xpm="0 0 1 0"
 "1 c #FF0000"
 String1=0x04,cycleway
@@ -7071,7 +7071,7 @@ DayXpm="20 20 2 1"   Colormode=16
 
 [_point]
 Type=0x050
-SubType=0x99 # Use Garmin build in 
+SubType=0x99
 String1=0x04,drinking water
 String2=0x03,drinkwater
 String3=0x02,Trinkwasser
