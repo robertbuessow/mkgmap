@@ -1,0 +1,13 @@
+#
+# This file contains information about the style.
+# It is completely optional.
+# 
+
+
+# A short one line description of the style
+#
+summary: contour styles for garmin.openstreetmap.nl
+
+# Version of the style itself
+#
+version=1.0
