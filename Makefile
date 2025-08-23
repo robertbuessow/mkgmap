@@ -31,6 +31,7 @@ $(MKGMAP)/mkgmap.jar: $(IN_DIR)/$(MKGMAP).tar.gz
 	touch $(MKGMAP)/mkgmap.jar
 
 $(IN_DIR)/%-latest.osm.pbf:
+	rm -f $@
 	wget --directory-prefix=$(IN_DIR) https://download.geofabrik.de/europe/$(notdir $@)
 
 # Unused

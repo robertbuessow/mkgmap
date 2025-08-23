@@ -9,7 +9,7 @@
 # for more information.
 
 railway=* { deletealltags }
-amenity=* & amenity!=drinking_water & amenity!=toilets & amenity!=shelter { deletealltags }
+amenity=* & amenity!=drinking_water & amenity!=toilets & amenity!=shelter & amenity!=parking { deletealltags }
 leisure=* { deletealltags }
 sport=* { deletealltags }
 
@@ -73,9 +73,9 @@ barrier=gate | barrier=lift_gate | barrier=swing_gate {
 barrier=* {add mkgmap:road-speed=1}
 barrier=* & access=* {addaccess '${access|subst:private=>no}'}
 
-internet_access=yes {name 'Internet ${name}' | 'Internet'} [0x2f12 resolution 24 continue]
-internet_access=* & internet_access!=no & internet_access!=yes
-    {name 'Internet(${internet_access}) ${name}' | 'Internet(${internet_access})'} [0x2f12 resolution 24 continue]
+# internet_access=yes {name 'Internet ${name}' | 'Internet'} [0x2f12 resolution 24 continue]
+# internet_access=* & internet_access!=no & internet_access!=yes
+#     {name 'Internet(${internet_access}) ${name}' | 'Internet(${internet_access})'} [0x2f12 resolution 24 continue]
 
 (public_transport=platform | highway=bus_stop | railway=tram_stop | railway=halt | railway=station)
     & (ref=* | route_ref=*)
@@ -148,7 +148,7 @@ amenity=cafe {delete cuisine} [0x2a0e resolution 23 continue with_actions]
 amenity=community_centre [0x3005 resolution 24]
 amenity=community_center [0x3005 resolution 24]
 #amenity=courthouse [0x3004 resolution 24]
-amenity=drinking_water [0x5000 resolution 20 default_name 'Water']
+amenity=drinking_water [0x5000 resolution 18 default_name 'Water']
 #amenity=embassy & country=* {set name='${country} ${name|def:Embassy}'} [0x3003 resolution 24]
 #amenity=embassy & country!=* [0x3003 resolution 24 default_name 'Embassy']
 #amenity=emergency_phone [0x2f12 resolution 24 default_name 'Emergency Phone']
@@ -274,7 +274,7 @@ shop=garden_centre [0x2e08 resolution 24]
 shop=garden_center [0x2e08 resolution 24]
 shop=general [0x2e03 resolution 24]
 shop=hardware [0x2e09 resolution 24]
-shop=hairdresser [0x2f10 resolution 24]
+# shop=hairdresser [0x2f10 resolution 24]
 shop=mall [0x2e04 resolution 24]
 shop=organic [0x2e0a resolution 24]
 shop=outdoor [0x2e08 resolution 24]

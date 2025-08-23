@@ -3,7 +3,7 @@
 
 # delete FIXME values (they should be better used in maintenance maps)
 # better use option --ignore-fixme-values
-ref ~ '(?i)fix[ _]?+me'		{ delete ref; } 
+ref ~ '(?i)fix[ _]?+me'		{ delete ref; }
 operator ~ '(?i)fix[ _]?+me'	{ delete operator; }
 brand ~ '(?i)fix[ _]?+me'		{ delete brand; }
 name ~ '(?i)fix[ _]?+me'		{ delete name; }
@@ -26,7 +26,7 @@ operator=* & brand=* {
 }
 
 # One of operator or brand given
-operator=* & brand!=* & (highway=bus_stop | railway=tram_stop | railway=halt | railway=station) {
+operator=* & brand!=* & (highway=bus_stop | railway=tram_stop | railway=halt | railway=station | water=reservoir) {
  name '${name} ${ref} ${operator}' |
       '${name} ${operator}' |
       '${ref} ${operator}' |
@@ -42,7 +42,7 @@ operator=* & brand!=* {
 }
 brand=* & operator!=* {
  name '${brand}: ${ref} ${name}' |
-      '${brand}: ${name}' | 
+      '${brand}: ${name}' |
       '${brand}: ${ref}' |
       '${brand}' |
       '${ref}'

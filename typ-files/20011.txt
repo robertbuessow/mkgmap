@@ -216,9 +216,8 @@ String1=0x04,church
 String2=0x03,kerk
 String3=0x02,Kirche
 ExtendedLabels=Y
-FontStyle=SmallFont
-CustomColor=Day
-DaycustomColor:#390000
+FontStyle=NoLabel (invisible)
+CustomColor=No
 Xpm="0 0 1 0"
 "1 c #BD956A"
 [end]
@@ -230,7 +229,7 @@ String1=0x04,airport
 String2=0x03,vliegveld
 String3=0x02,Flughafen
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=No
 Xpm="0 0 1 0"
 "1 c #EEEEE0"
@@ -257,7 +256,7 @@ String1=0x04,marina
 String2=0x03,jachthaven
 String3=0x02,Yachthafen, Marina
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=Day
 DaycustomColor:#0000B4
 Xpm="32 32 2 1"
@@ -422,9 +421,8 @@ String1=0x04,Forest
 String2=0x03,Bos
 String3=0x02,Wald
 ExtendedLabels=Y
-FontStyle=SmallFont
-CustomColor=Day
-DaycustomColor:#7B956A
+FontStyle=NoLabel (invisible)
+CustomColor=No
 Xpm="32 32 4 1"
 "! c #7BCA6A"
 "# c #7B956A"
@@ -487,9 +485,8 @@ String1=0x04,forest, park
 String2=0x03,bos, park
 String3=0x02,Wald, Park
 ExtendedLabels=Y
-FontStyle=SmallFont
-CustomColor=Day
-DaycustomColor:#7B956A
+FontStyle=NoLabel (invisible)
+CustomColor=No
 Xpm="0 0 2 0"
 "1 c #BDFFB4"
 "2 c #BDCA8B"
@@ -769,7 +766,7 @@ String1=0x04,heather
 String2=0x03,heide
 String3=0x02,Heide
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=Day
 DaycustomColor:#7B956A
 Xpm="0 0 1 0"
@@ -783,7 +780,7 @@ String1=0x04,protected area
 String2=0x03,beschermd gebied
 String3=0x02,gesch�tzte Gebiet
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=DayAndNight
 DaycustomColor:#399541
 NightcustomColor:#000000
@@ -832,7 +829,7 @@ String1=0x04,heather
 String2=0x03,heide
 String3=0x02,Heide
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=Day
 DaycustomColor:#7B956A
 Xpm="0 0 1 0"
@@ -846,7 +843,7 @@ String1=0x04,Forest
 String2=0x03,Bos
 String3=0x02,Wald
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=Day
 DaycustomColor:#7B956A
 Xpm="32 32 4 1"
@@ -1402,7 +1399,7 @@ String1=0x04,campsite
 String2=0x03,camping
 String3=0x02,Campingplatz
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=Day
 DaycustomColor:#00008B
 Xpm="32 32 2 1"
@@ -1562,12 +1559,29 @@ Type=0x00
 UseOrientation=N
 LineWidth=1
 Xpm="0 0 1 0"
-"1 c #7B958B"
+"1 c #00ffff"
 String1=0x04,cycling route
 String2=0x03,fietsroute
 String3=0x02,Radroute
 ExtendedLabels=Y
 FontStyle=NoLabel (invisible)
+CustomColor=No
+[end]
+
+
+[_line]
+Type=0x02
+UseOrientation=N
+LineWidth=5
+BorderWidth=1
+Xpm="0 0 2 0"
+"1 c #BDCAD5"
+"2 c #FF3000"
+String1=0x04,motorway, trunk (cycling allowed)
+String2=0x03,auto(snel)weg (fietsen toegestaan)
+String3=0x02,Autobahn (Radfahren erlaubt)
+ExtendedLabels=Y
+FontStyle=SmallFont
 CustomColor=No
 [end]
 
@@ -1580,28 +1594,9 @@ BorderWidth=1
 Xpm="0 0 2 0"
 "1 c #BDCAD5"
 "2 c #7B306A"
-String1=0x04,motorway, trunk (cycling allowed)
-String2=0x03,auto(snel)weg (fietsen toegestaan)
-String3=0x02,Autobahn (Radfahren erlaubt)
-ExtendedLabels=Y
-FontStyle=SmallFont
-CustomColor=No
-[end]
-
-
-[_line]
-Type=0x02
-UseOrientation=N
-Xpm="32 3 2  1"
-"! c #0030FF"
-"  c none"
-" !!!!!!!!        !!!!!!!!       "
-" !!!!!!!!        !!!!!!!!       "
-" !!!!!!!!        !!!!!!!!       "
-;12345678901234567890123456789012
-String1=0x04,cycle route
-String2=0x03,fietsroute
-String3=0x02,Radroute
+String1=0x04,motorway, trunk (cycling disallowed)
+String2=0x03,auto(snel)weg
+String3=0x02,Autobahn (Radfahren verboten)
 ExtendedLabels=Y
 FontStyle=SmallFont
 CustomColor=No
@@ -1700,9 +1695,10 @@ CustomColor=No
 [_line]
 Type=0x08
 UseOrientation=N
-LineWidth=3
-Xpm="0 0 1 0"
-"1 c #BDCAB4"
+Xpm="32 1 2 1"
+"! c #BDCAB4"
+"# c #FFFFFF"
+"!!!!!#####!!!!!#####!!!!!#####!!"
 String1=0x04,pedestrian
 String2=0x03,voetpad
 String3=0x02,Fu�weg
@@ -1753,19 +1749,44 @@ String2=0x03,pad
 String3=0x02,Pfad
 ExtendedLabels=Y
 FontStyle=SmallFont
-CustomColor=No
+CustomColor=No[end]
+
+[_line]
+Type=0x19
+UseOrientation=N
+Xpm="32 7 2  1"
+"# c #FF0000"
+"  c none"
+"################################"
+"    ########         ########   "
+"    ########         ########   "
+"    ########         ########   "
+"    ########         ########   "
+"    ########         ########   "
+"################################"
+;12345678901234567890123456789012
+String1=0x04,cycle route
+String2=0x03,fietsknooppunt route
+String3=0x02,Radroute
+ExtendedLabels=Y
+FontStyle=NormalFont
+CustomColor=Day
+DayCustomColor:#FF0000
 [end]
 
 
 [_line]
 Type=0x0b
 UseOrientation=N
-Xpm="32 4 2  1"
-"! c #FF0000"
-"# c #B4B4B4"
+Xpm="32 7 2  1"
+"# c #FF0000"
+"  c  none"
 "################################"
-"!!!!!###!!!!!###!!!!!###!!!!!###"
-"!!!!!###!!!!!###!!!!!###!!!!!###"
+"    ####    ####    ####    ####"
+"    ####    ####    ####    ####"
+"    ####    ####    ####    ####"
+"    ####    ####    ####    ####"
+"    ####    ####    ####    ####"
 "################################"
 ;12345678901234567890123456789012
 String1=0x04,unpaved bikepath
@@ -1800,7 +1821,7 @@ Type=0x0d
 UseOrientation=N
 Xpm="32 3 2  1"
 "! c #FF0000"
-"# c #D5D5D5"
+"# c #00FFFF"
 "################################"
 "!!!!!###!!!!!###!!!!!###!!!!!###"
 "################################"
@@ -1820,10 +1841,10 @@ UseOrientation=N
 Xpm="32 4 2  1"
 "! c #FF0000"
 "# c #FFFFFF"
-"################################"
 "!!!!!###!!!!!###!!!!!###!!!!!###"
 "!!!!!###!!!!!###!!!!!###!!!!!###"
-"################################"
+"!!!!!###!!!!!###!!!!!###!!!!!###"
+"!!!!!###!!!!!###!!!!!###!!!!!###"
 ;12345678901234567890123456789012
 String1=0x04,bikepath (compacted)
 String2=0x03,fietspad (halfverhard)
@@ -1875,9 +1896,9 @@ CustomColor=No
 [_line]
 Type=0x11
 UseOrientation=N
-LineWidth=3
+LineWidth=5
 Xpm="0 0 1 0"
-"1 c #FF0000"
+"1 c #FFFF00"
 String1=0x04,cycleway
 String2=0x03,Fietspad
 String3=0x02,Radweg
@@ -1944,29 +1965,12 @@ CustomColor=No
 
 
 [_line]
-Type=0x15
-UseOrientation=N
-Xpm="32 1 2  1"
-"! c #573132"
-"  c none"
-"!!!!!   !!!!!   !!!!!   !!!!!   "
-;12345678901234567890123456789012
-String1=0x04,track or path
-String2=0x03,onverharde weg of pad
-String3=0x02,Unbefestigter Weg, Pfad
-ExtendedLabels=Y
-FontStyle=NoLabel (invisible)
-CustomColor=No
-[end]
-
-
-[_line]
 Type=0x16
 UseOrientation=N
 LineWidth=2
 BorderWidth=1
 Xpm="0 0 4 0"
-"1 c #FF0000"
+"1 c #00FFFF"
 "2 c #7B0000"
 "3 c #FF0000"
 "4 c #FFFFFF"
@@ -1992,31 +1996,6 @@ ExtendedLabels=Y
 FontStyle=NoLabel (invisible)
 CustomColor=No
 [end]
-
-
-[_line]
-Type=0x19
-UseOrientation=N
-Xpm="32 7 2  1"
-"! c #0030FF"
-"  c #FFFFFF"
-"                                "
-"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-"    !!!!!!!!         !!!!!!!!   "
-"    !!!!!!!!         !!!!!!!!   "
-"    !!!!!!!!         !!!!!!!!   "
-"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-"                                "
-;12345678901234567890123456789012
-String1=0x04,rcn cycle route
-String2=0x03,fietsknooppunt route
-String3=0x02,Regionale Radroute
-ExtendedLabels=Y
-FontStyle=NormalFont
-CustomColor=Day
-DayCustomColor:#0030FF
-[end]
-
 
 [_line]
 Type=0x1a
@@ -2264,22 +2243,19 @@ CustomColor=No
 
 
 [_line]
-Type=0x27
-UseOrientation=N
-Xpm="32 3 2  1"
-"! c #FF306A"
-"  c none"
-"                                "
-"                                "
-"                                "
-;12345678901234567890123456789012
-String1=0x04,local bike route
-String2=0x03,lokale fietsroute
-String3=0x02,Lokale Radroute
+type=0x27
+;GRMN_TYPE: Misc. Line Types/AIRPORT_RUNWAY/Airport runway centerline/Non NT
+UseOrientation=Y
+LineWidth=12
+Xpm="0 0 1 0"
+"1 c #BBBBCC"
+String=Runway
+String1=0x01,Runway
+String2=0x02,Startbahn
+String4=0x03,Landingsbaan
 ExtendedLabels=Y
 FontStyle=NoLabel (invisible)
-CustomColor=Day
-DaycustomColor:#FF308B
+CustomColor=No
 [end]
 
 
@@ -2290,12 +2266,12 @@ Xpm="32 3 2  1"
 "! c #7B306A"
 "  c none"
 "                                "
-"                                "
+"!!!!!!  !!!!!!  !!!!!!  !!!!!!  "
 "                                "
 ;12345678901234567890123456789012
-String1=0x04,bike route
-String2=0x03,fietsroute
-String3=0x02,Rad route
+String1=0x04,cable
+String2=0x03,kabel
+String3=0x02,Kabel
 ExtendedLabels=Y
 FontStyle=SmallFont
 CustomColor=No
@@ -3087,42 +3063,6 @@ String2=0x03,startbaan
 String3=0x02,Startbahn
 ExtendedLabels=Y
 FontStyle=SmallFont
-CustomColor=No
-[end]
-
-
-[_line]
-Type=0x10118
-UseOrientation=N
-LineWidth=1
-Xpm="0 0 1 0"
-"1 c #7B30B4"
-String1=0x04,cycle route
-String2=0x03,fietsroute
-String3=0x02,Radroute
-ExtendedLabels=Y
-FontStyle=NoLabel (invisible)
-CustomColor=No
-[end]
-
-
-[_line]
-Type=0x10119
-UseOrientation=N
-Xpm="32 5 2  1"
-"! c #0000FF"
-"  c none"
-"!!!!    !!!!    !!!!    !!!!    "
-"!!!!    !!!!    !!!!    !!!!    "
-"                                "
-"                                "
-"                                "
-;12345678901234567890123456789012
-String1=0x04,cycle route
-String2=0x03,fietsroute
-String3=0x02,Radroute
-ExtendedLabels=Y
-FontStyle=NoLabel (invisible)
 CustomColor=No
 [end]
 
@@ -6060,7 +6000,7 @@ String1=0x04,shop
 String2=0x03,winkel
 String3=0x02,Laden
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=No
 DayXpm="10 10 3 1"   Colormode=16
 "!	c #000000"
@@ -7418,7 +7358,7 @@ String1=0x04,building
 String2=0x03,gebouw
 String3=0x02,Geb�ude
 ExtendedLabels=Y
-FontStyle=SmallFont
+FontStyle=NoLabel (invisible)
 CustomColor=Day
 DaycustomColor:#BD6500
 DayXpm="25 25 3 1"   Colormode=16

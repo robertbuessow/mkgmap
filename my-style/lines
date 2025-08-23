@@ -8,7 +8,7 @@
 # and http://wiki.openstreetmap.org/wiki/Mkgmap/help/Custom_styles
 # for more information.
 
-amenity=* & amenity!=drinking_water & amenity!=toilets & amenity!=shelter { deletealltags }
+amenity=* & amenity!=drinking_water & amenity!=toilets & amenity!=shelter & amenity!=parking { deletealltags }
 
 addr:housenumber=* {set mkgmap:execute_finalize_rules=true}
 
@@ -69,12 +69,6 @@ mkgmap:exit_hint=true {
 mkgmap:exit_hint=true | mkgmap:dest_hint=* {name '${tmp:exit_hint} ${tmp:dest_hint}' | '${tmp:dest_hint}' | '${tmp:exit_hint}'}
 # end of rules for process-exits and process-destination options
 
-route=bicycle {
-    set mkgmap:label:1='${ref|highway-symbol:round}';
-    set mkgmap:bicycle=yes;
-} [0x19 resolution 18]
-
-
 # Flag paved roads
 highway=* & (surface=asphalt | surface=paved | surface=sett |
     surface=concrete | surface=concrete:lanes | surface=concrete:plates |
@@ -123,10 +117,19 @@ highway=path & (bicycle=designated | bicycle=official | cycleway=lane)
 highway=path & foot=designated
     {set highway=footway}
 
+route=bicycle {
+    set mkgmap:label:1='${ref|highway-symbol:round}';
+    set mkgmap:bicycle=yes;
+}
+
+route=bicycle & mkgmap:unpaved=0 { delete highway } [0x19 road_class=0 resolution 18]
+route=bicycle { delete highway } [0x0b road_class=0 resolution 18]
+
+
 leisure=track & area!=yes {name '${name} (${sport})' | '${sport}'} [0x30 resolution 22]
 man_made=pier | man_made=piste:halfpipe {add highway=footway; name '${ref} ${name}' | '${ref}' | '${name}'}
 
-man_made=breakwater & is_closed()=false & mkgmap:mp_created!=true [0x17 resolution 22 default_name 'Breakwater']
+man_made=breakwater & is_closed()=false & mkgmap:mp_created!=true [0x10015 resolution 22 default_name 'Breakwater']
 
 # Roundabouts
 junction=roundabout & (highway=trunk | highway=trunk_link) [0x0c road_class=4 road_speed=2 resolution 24 continue]
@@ -160,29 +163,32 @@ highway=* & construction=* & maxspeed!=* {add mkgmap:road-speed='-1'}
 # Lower the road speed of disused ways.
 highway=* & disused=yes & maxspeed!=* {add mkgmap:road-speed='-2'}
 
+highway=* & tunnel=yes [0x09 road_class=4 road_speed=2 resolution 20]
+
 # Ways sorted roughly by descending order of class
-highway=motorway & mkgmap:fast_road=yes [0x01 road_class=4 road_speed=7 resolution 14]
-highway=motorway [0x01 road_class=4 road_speed=7 resolution 15]
-highway=motorway_link & (mkgmap:exit_hint=true | mkgmap:dest_hint=*) [0x0b road_class=4 road_speed=2 resolution 20]
+highway=motorway & bicycle=yes [0x02 road_class=4 road_speed=7 resolution 15]
+highway=motorway [0x01 road_class=4 road_speed=7 resolution 14]
 highway=motorway_link [0x09 road_class=4 road_speed=2 resolution 20]
 
-highway=trunk & mkgmap:fast_road=yes [0x02 road_class=4 road_speed=5 resolution 15]
-highway=trunk [0x02 road_class=4 road_speed=5 resolution 18]
-highway=trunk_link & (mkgmap:exit_hint=true | mkgmap:dest_hint=*) [0x0b road_class=4 road_speed=2 resolution 20]
-highway=trunk_link [0x09 road_class=4 road_speed=2 resolution 20]
-highway=* & motorroad=yes [0x02 road_class=4 road_speed=4 resolution 18]
-highway=primary & mkgmap:fast_road=yes [0x03 road_class=4 road_speed=4 resolution 17]
+highway=trunk & bicycle=no [0x01 road_class=4 road_speed=5 resolution 15]
+highway=trunk & bicycle=yes [0x02 road_class=4 road_speed=5 resolution 18]
+# highway=trunk_link & (mkgmap:exit_hint=true | mkgmap:dest_hint=*) [0x0b road_class=4 road_speed=2 resolution 20]
+highway=trunk_link & bicycle=no [0x01 road_class=4 road_speed=2 resolution 20]
+highway=trunk_link & bicycle=yes [0x02 road_class=4 road_speed=2 resolution 20]
+# highway=* & motorroad=yes [0x02 road_class=4 road_speed=4 resolution 18]
+# highway=primary & mkgmap:fast_road=yes [0x03 road_class=4 road_speed=4 resolution 17]
 highway=primary [0x03 road_class=3 road_speed=4 resolution 19]
-highway=primary_link & (mkgmap:exit_hint=true | mkgmap:dest_hint=*) & mkgmap:fast_road=yes [0x0b road_class=4 road_speed=1 resolution 21]
-highway=primary_link & (mkgmap:exit_hint=true | mkgmap:dest_hint=*) [0x0b road_class=3 road_speed=1 resolution 21]
-highway=primary_link & mkgmap:fast_road=yes [0x08 road_class=4 road_speed=1 resolution 21]
-highway=primary_link [0x08 road_class=3 road_speed=1 resolution 21]
+#highway=primary_link & (mkgmap:exit_hint=true | mkgmap:dest_hint=*) & mkgmap:fast_road=yes [0x0b road_class=4 road_speed=1 resolution 21]
+#highway=primary_link & (mkgmap:exit_hint=true | mkgmap:dest_hint=*) [0x0b road_class=3 road_speed=1 resolution 21]
+#highway=primary_link & mkgmap:fast_road=yes [0x08 road_class=4 road_speed=1 resolution 21]
+highway=primary_link [0x03 road_class=3 road_speed=1 resolution 21]
 highway=secondary & mkgmap:fast_road=yes [0x04 road_class=3 road_speed=3 resolution 18]
 highway=secondary [0x04 road_class=2 road_speed=3 resolution 20]
 highway=secondary_link & mkgmap:fast_road=yes [0x08 road_class=3 road_speed=1 resolution 22]
-highway=secondary_link [0x08 road_class=2 road_speed=1 resolution 22]
+highway=secondary_link [0x04 road_class=2 road_speed=1 resolution 22]
 highway=tertiary [0x05 road_class=1 road_speed=3 resolution 20]
-highway=tertiary_link [0x08 road_class=1 road_speed=1 resolution 22]
+highway=tertiary_link [0x05 road_class=1 road_speed=1 resolution 22]
+highway=minor & mkgmap:unpaved=0 [0x07 road_class=1 road_speed=3 resolution 21]
 highway=minor [0x06 road_class=1 road_speed=3 resolution 21]
 highway=unclassified [0x06 road_class=0 road_speed=3 resolution 21]
 
@@ -202,11 +208,17 @@ highway=driveway {set highway=service; add service=driveway}  # fix common bad t
 highway=access  {set highway=service}  # fix common bad tagging
 highway=access_ramp {set highway=footway}  # proposed
 
+highway=service & mkgmap:unpaved=0 & service=parking_aisle [0x06 road_class=0 road_speed=1 resolution 24]
+highway=service & mkgmap:unpaved=0 & (service=alley | service=driveway) [0x06 road_class=0 road_speed=0 resolution 23]
+highway=service & mkgmap:unpaved=0 [0x06 road_class=0 road_speed=2 resolution 22]
+
 highway=service & service=parking_aisle [0x07 road_class=0 road_speed=1 resolution 24]
 highway=service & (service=alley | service=driveway) [0x07 road_class=0 road_speed=0 resolution 23]
 highway=service [0x07 road_class=0 road_speed=2 resolution 22]
 
-highway=cycleway [0x11 road_class=0 road_speed=1 resolution 23]
+
+highway=cycleway & mkgmap:unpaved=0 [0x11 road_class=0 road_speed=1 resolution 23]
+highway=cycleway [0x0e road_class=0 road_speed=1 resolution 23]
 
 # highway=footway is often an area as well, continue for polygon processing
 highway=footway {set tmp:stopMopUp=yes} [0x08 road_class=0 road_speed=0 resolution 23 continue with_actions]
@@ -214,9 +226,11 @@ highway=footway {set tmp:stopMopUp=yes} [0x08 road_class=0 road_speed=0 resoluti
 highway=trail {set highway=path; add bicycle=no}  # fix common bad tagging
 
 highway=path & bicycle=yes [0x16 road_class=0 road_speed=0 resolution 23]
+highway=track & mkgmap:unpaved=0 [0x0a road_class=0 road_speed=1 resolution 22]
 highway=track [0x0a road_class=0 road_speed=1 resolution 22]
 highway=unsurfaced [0x0a road_class=0 road_speed=1 resolution 22]
-highway=road {add mkgmap:dead-end-check=false} [0x06 road_class=0 road_speed=1 resolution 22]
+highway=road & mkgmap:unpaved=0 {add mkgmap:dead-end-check=false} [0x06 road_class=0 road_speed=1 resolution 22]
+highway=road {add mkgmap:dead-end-check=false} [0x07 road_class=0 road_speed=1 resolution 22]
 
 # handle some rarer bits of road. Do just in case joining paths or bits of one-way roads
 highway=turning_loop | highway=turning_circle | highway=layby | highway=escape | highway=emergency_bay
@@ -258,7 +272,7 @@ boundary=administrative [0x1c resolution 22]
 boundary=national [0x1e resolution 17]
 boundary=political [0x1c resolution 19]
 
-barrier=wall | barrier=fence | barrier=hedge | barrier=ditch [0x17 resolution 24]
+barrier=wall | barrier=fence | barrier=hedge | barrier=ditch [0x10012 resolution 24]
 
 route=ferry & (toll=no | toll=false) {set mkgmap:toll=no}
 route=ferry {set mkgmap:numbers=false; set mkgmap:ferry=1; add mkgmap:toll=yes}
@@ -266,8 +280,8 @@ route=ferry & (motorcar=no | motor_vehicle=no) [0x1b road_class=0 road_speed=0 r
 route=ferry [0x1a road_class=3 road_speed=0 resolution 19]
 
 (waterway=river | waterway=stream | waterway=rapids | waterway=waterfall) {add mkgmap:has-direction=true}
-(waterway=river | waterway=canal) & intermittent=yes [0x26 resolution 20]
-(waterway=stream | waterway=drain) & intermittent=yes [0x26 resolution 22]
+(waterway=river | waterway=canal) & intermittent=yes [0x1f resolution 20]
+(waterway=stream | waterway=drain) & intermittent=yes [0x18 resolution 22]
 
 waterway=canal [0x1f resolution 21]
 waterway=river [0x1f resolution 18]
@@ -276,7 +290,7 @@ waterway=stream | waterway=drain [0x18 resolution 22]
 
 # mop up any remaining water lines
 waterway=* & waterway!=no & (area=no | (is_closed()=false & mkgmap:mp_created!=true))
-    {add name='${waterway|subst:"_=> "}'} [0x26 resolution 24]
+    {add name='${waterway|subst:"_=> "}'} [0x10a02 resolution 24]
 
 include 'inc/contour_lines';
 
