@@ -121,12 +121,6 @@ route=bicycle {
     set mkgmap:label:1='${ref|highway-symbol:round}';
     set mkgmap:bicycle=yes;
 }
-
-# Contours take their name from the elevation setting.
-contour=elevation & ele ~ '\d+00' { name '${ele|conv:m=>ft}'; } [0x22 resolution 18]
-contour=elevation & ele ~ '\d*[2468]0' { name '${ele|conv:m=>ft}'; } [0x21 resolution 21]
-# contour=elevation { name '${ele|conv:m=>ft}'; } [0x20 resolution 23]
-
 route=bicycle & mkgmap:unpaved=0 { delete highway } [0x19 road_class=0 resolution 18]
 route=bicycle { delete highway } [0x0b road_class=0 resolution 18]
 
@@ -297,7 +291,13 @@ waterway=stream | waterway=drain [0x18 resolution 22]
 waterway=* & waterway!=no & (area=no | (is_closed()=false & mkgmap:mp_created!=true))
     {add name='${waterway|subst:"_=> "}'} [0x10a02 resolution 24]
 
-include 'inc/contour_lines';
+
+# Contours take their name from the elevation setting.
+contour=elevation & ele ~ '\d+00' { name '${ele|conv:m=>ft}'; } [0x22 resolution 20]
+contour=elevation & ele ~ '\d*[2468]0' { name '${ele|conv:m=>ft}'; } [0x21 resolution 24]
+# contour=elevation { name '${ele|conv:m=>ft}'; } [0x20 resolution 23]
+
+# include 'inc/contour_lines';
 
 <finalize>
 # The finalizer section is executed for each element when a rule with an element type matches
