@@ -1794,7 +1794,8 @@ String2=0x03,fietspad (onverhard)
 String3=0x02,Unbefestigter Radweg
 ExtendedLabels=Y
 FontStyle=SmallFont
-CustomColor=No
+CustomColor=Day
+DayCustomColor:#FF0000
 [end]
 
 
@@ -1896,9 +1897,9 @@ CustomColor=No
 [_line]
 Type=0x11
 UseOrientation=N
-LineWidth=5
+LineWidth=3
 Xpm="0 0 1 0"
-"1 c #FFFF00"
+"1 c #FF0000"
 String1=0x04,cycleway
 String2=0x03,Fietspad
 String3=0x02,Radweg
@@ -6963,80 +6964,6 @@ DayXpm="20 20 6 1"   Colormode=16
 "     $%?$$$$?%$     "
 "      $%????%$      "
 "       $#%%#$       "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-;12345678901234567890
-[end]
-
-
-[_point]
-Type=0x04e
-SubType=0x00
-String1=0x04,toilets
-String2=0x03,toiletten
-String3=0x02,Toilette
-ExtendedLabels=Y
-FontStyle=NoLabel (invisible)
-CustomColor=No
-DayXpm="20 20 2 1"   Colormode=16
-"!	c #00008B"
-"  	c none"
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"     !   ! !!!!     "
-"     !   ! !        "
-"     ! ! ! !        "
-"     ! ! ! !        "
-"     !!!!! !!!!     "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-;12345678901234567890
-[end]
-
-
-[_point]
-Type=0x050
-SubType=0x99
-String1=0x04,drinking water
-String2=0x03,drinkwater
-String3=0x02,Trinkwasser
-String4=0x01,eau potable
-ExtendedLabels=Y
-FontStyle=NoLabel (invisible)
-CustomColor=No
-DayXpm="20 20 3 1"   Colormode=16
-"!	c #FFFFFF"
-"#	c #00008B"
-"  	c none"
-"                    "
-"                    "
-"                    "
-"                    "
-"                    "
-"      !!!!!!        "
-"      !!###!        "
-"    !!!!!#!!!       "
-"    !#######!       "
-"    !#!!!!!!!       "
-"    !!!             "
-"    !#!             "
-"                    "
-"                    "
 "                    "
 "                    "
 "                    "

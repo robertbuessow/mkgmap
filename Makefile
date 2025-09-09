@@ -27,6 +27,8 @@ COUNTRY_CODES = \
 	slovenia:SVN:0386 \
 	switzerland:CHE:0041
 
+COUNTRIES = austria germany france italy liechtenstein switzerland
+
 # Convert country name to ISO code
 country_to_iso = $(word 2,$(subst :, ,$(filter $(1):%,$(COUNTRY_CODES))))
 
@@ -84,7 +86,7 @@ $(WORK_DIR)/%-filtered.osm.pbf: $(IN_DIR)/%-latest.osm.pbf osmosis.args
 
 #$(WORK_DIR)/%/split: $(WORK_DIR)/%-filtered.osm.pbf $(SPLITTER) Makefile
 $(WORK_DIR)/%/split: $(IN_DIR)/%-latest.osm.pbf $(SPLITTER)/splitter.jar
-	@country=$$(basename $$(dirname $@)); \
+	@country=$$(basename $$(dirname $@) | sed 's/osm-oa-//'); \
 	country3=$$(echo $(COUNTRY_CODES) | tr ' ' '\n' | sed -n "s/$$country:\(...\):..../\1/p"); \
 	dialcode=$$(echo $(COUNTRY_CODES) | tr ' ' '\n' | sed -n "s/$$country:...:\(....\)/\1/p"); \
 	id="22$${dialcode}00"; \
@@ -94,7 +96,7 @@ $(WORK_DIR)/%/split: $(IN_DIR)/%-latest.osm.pbf $(SPLITTER)/splitter.jar
 	touch $(dir $@)/split
 
 $(WORK_DIR)/%/split-contour: $(WORK_DIR)/%-contour.osm.pbf $(SPLITTER)/splitter.jar
-	@country=$$(basename $$(dirname $@)); \
+	@country=$$(basename $$(dirname $@) | sed 's/osm-oa-//'); \
 	country3=$$(echo $(COUNTRY_CODES) | tr ' ' '\n' | sed -n "s/$$country:\(...\):..../\1/p"); \
 	dialcode=$$(echo $(COUNTRY_CODES) | tr ' ' '\n' | sed -n "s/$$country:...:\(....\)/\1/p"); \
 	id="21$${dialcode}00"; \
@@ -105,9 +107,9 @@ $(WORK_DIR)/%/split-contour: $(WORK_DIR)/%-contour.osm.pbf $(SPLITTER)/splitter.
 
 # id=$$(echo $$((20000000 + 0x$$(sha1 -s $$country | cut -c1-8) % 100000))); \
 
-$(OUT_DIR)/%.img: $(WORK_DIR)/%/split $(WORK_DIR)/%/split-contour my.cfg $(MKGMAP)/mkgmap.jar $(STYLE_FILES) $(TYP_FILES)
+$(OUT_DIR)/osm-oa-%.img: $(WORK_DIR)/%/split $(WORK_DIR)/%/split-contour my.cfg $(MKGMAP)/mkgmap.jar $(STYLE_FILES) $(TYP_FILES)
 	@mkdir -p $(OUT_DIR); \
-	country=`basename $@ .img`; \
+	country=$$(basename $@ .img | sed 's/osm-oa-//'); \
 	country3=$$(echo $(COUNTRY_CODES) | tr ' ' '\n' | sed -n "s/$$country:\(...\):..../\1/p"); \
 	dialcode=$$(echo $(COUNTRY_CODES) | tr ' ' '\n' | sed -n "s/$$country:...:\(...\)/\1/p"); \
 	id="20$${dialcode}00"; \
@@ -120,11 +122,9 @@ $(OUT_DIR)/%.img: $(WORK_DIR)/%/split $(WORK_DIR)/%/split-contour my.cfg $(MKGMA
 			--country-name=$$country \
 			--country-abbr=$$country3 \
 			--family-id=$$fid \
-			--family-name=RB_F_OSM_$$country \
-			--description=Outabout_OSM_$$country \
+			--family-name=OSM\ Outabout \
+			--description=Outabout\ OSM\ $$country \
 			--area-name=RB_A_OSM_$$country \
-			--region-name=$$country \
-			--region-abbr=$$country3 \
 			--series-name=RB_S_OSM_$$country \
 			--overview-mapname=RB_O_OSM_$$country \
 			--overview-mapnumber=$$id \
@@ -134,7 +134,9 @@ $(OUT_DIR)/%.img: $(WORK_DIR)/%/split $(WORK_DIR)/%/split-contour my.cfg $(MKGMA
 			"; \
 	echo "($$cmd)"; \
 	bash -c "$$cmd"; \
-	mv $(WORK_DIR)/$$country/gmapsupp.img $(OUT_DIR)/$$country.img
+	mv $(WORK_DIR)/$$country/gmapsupp.img $(OUT_DIR)/osm-oa-$$country.img
+
+all: $(foreach country,$(COUNTRIES),$(OUT_DIR)/osm-oa-$(country).img)
 
 /Volumes/GARMIN/Garmin/%.img: out/%.img
 	cp $< $@
