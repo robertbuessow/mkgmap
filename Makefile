@@ -136,6 +136,24 @@ $(OUT_DIR)/osm-oa-%.img: $(WORK_DIR)/%/split $(WORK_DIR)/%/split-contour my.cfg 
 	bash -c "$$cmd"; \
 	mv $(WORK_DIR)/$$country/gmapsupp.img $(OUT_DIR)/osm-oa-$$country.img
 
+
+$(OUT_DIR)/swiss-oa-skitouring.img: ski_network_2056.osm topo/topo.cfg topo/topo-typ.txt $(wildcard topo/styles/*)
+	@mkdir -p $(OUT_DIR)
+	@mkdir -p $(WORK_DIR)/swiss-oa-skitouring
+	@cmd="cd $(WORK_DIR)/swiss-oa-skitouring; \
+		java -Xms5g -Xmx16g -XX:+UseParallelGC -Dlog.config=../../logging.properties \
+		    -jar ../../$(MKGMAP)/mkgmap.jar \
+			--style-file=../../topo/style \
+			--read-config=../../topo/topo.cfg \
+			../../topo/topo-typ.txt \
+			../../ski_network_2056.osm \
+			"; \
+	cmd=$$(echo $$cmd | sed 's/  */ /g'); \
+	echo "($$cmd)"; \
+	bash -c "$$cmd"; \
+	mv $(WORK_DIR)/swiss-oa-skitouring/gmapsupp.img $(OUT_DIR)/swiss-oa-skitouring.img
+
+
 all: $(foreach country,$(COUNTRIES),$(OUT_DIR)/osm-oa-$(country).img)
 
 /Volumes/GARMIN/Garmin/%.img: out/%.img

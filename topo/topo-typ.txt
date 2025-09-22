@@ -1,0 +1,15 @@
+[_line]
+Type=0x20
+UseOrientation=N
+Xpm="32 4 2  1"
+"! c #FF0000"
+"  c #FFFF00"
+"!!  !!  !!  !!  !!  !!  !!  !!  "
+"!!  !!  !!  !!  !!  !!  !!  !!  "
+"!!  !!  !!  !!  !!  !!  !!  !!  "
+"!!  !!  !!  !!  !!  !!  !!  !!  "
+;12345678901234567890123456789012
+ExtendedLabels=Y
+FontStyle=NoLabel (invisible)
+CustomColor=No
+[end]
