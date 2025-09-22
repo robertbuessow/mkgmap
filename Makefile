@@ -72,10 +72,8 @@ $(WORK_DIR)/%-contour.osm.pbf:
 	$(MAKE) $(IN_DIR)/Hoehendaten_Freizeitkarte_$$country3.osm.pbf; \
 	cp $(IN_DIR)/Hoehendaten_Freizeitkarte_$$country3.osm.pbf $@
 
-Hoehendaten_Freizeitkarte_%.osm.pbf:
+$(IN_DIR)/Hoehendaten_Freizeitkarte_%.osm.pbf:
 	wget --directory-prefix=$(IN_DIR) http://develop.freizeitkarte-osm.de/ele_20_100_500/$(notdir $@)
-
-$(WORK_DIR)/switzerland/contour.osm.pbf: $(IN_DIR)/Hoehendaten_Freizeitkarte_CHE.osm.pbf
 	@cp $< $@
 
 # Unused
@@ -136,22 +134,32 @@ $(OUT_DIR)/osm-oa-%.img: $(WORK_DIR)/%/split $(WORK_DIR)/%/split-contour my.cfg 
 	bash -c "$$cmd"; \
 	mv $(WORK_DIR)/$$country/gmapsupp.img $(OUT_DIR)/osm-oa-$$country.img
 
+# TOPO / SKITOURING
 
-$(OUT_DIR)/swiss-oa-skitouring.img: ski_network_2056.osm topo/topo.cfg topo/topo-typ.txt $(wildcard topo/styles/*)
+$(IN_DIR)/skitouren_2056.gpkg.zip:
+	wget --directory-prefix=$(IN_DIR) https://data.geo.admin.ch/ch.swisstopo-karto.skitouren/skitouren/skitouren_2056.gpkg.zip
+
+
+$(WORK_DIR)/swiss-skitouring/ski_network_2056.osm: $(IN_DIR)/skitouren_2056.gpkg.zip
+	@mkdir -p $(WORK_DIR)/swiss-skitouring
+	unzip -u $(IN_DIR)/skitouren_2056.gpkg.zip -d $(WORK_DIR)/swiss-skitouring
+	python3 -m ogr2osm  -o $(WORK_DIR)/swiss-skitouring/ski_network_2056.osm $(WORK_DIR)/swiss-skitouring/ski_network_2056.gpkg
+
+$(OUT_DIR)/swiss-skitouring.img: $(WORK_DIR)/swiss-skitouring/ski_network_2056.osm topo/topo.cfg topo/topo-typ.txt $(wildcard topo/styles/*)
 	@mkdir -p $(OUT_DIR)
-	@mkdir -p $(WORK_DIR)/swiss-oa-skitouring
-	@cmd="cd $(WORK_DIR)/swiss-oa-skitouring; \
+	@mkdir -p $(WORK_DIR)/swiss-skitouring
+	@cmd="cd $(WORK_DIR)/swiss-skitouring; \
 		java -Xms5g -Xmx16g -XX:+UseParallelGC -Dlog.config=../../logging.properties \
 		    -jar ../../$(MKGMAP)/mkgmap.jar \
 			--style-file=../../topo/style \
 			--read-config=../../topo/topo.cfg \
 			../../topo/topo-typ.txt \
-			../../ski_network_2056.osm \
+			ski_network_2056.osm \
 			"; \
 	cmd=$$(echo $$cmd | sed 's/  */ /g'); \
 	echo "($$cmd)"; \
 	bash -c "$$cmd"; \
-	mv $(WORK_DIR)/swiss-oa-skitouring/gmapsupp.img $(OUT_DIR)/swiss-oa-skitouring.img
+	mv $(WORK_DIR)/swiss-skitouring/gmapsupp.img $(OUT_DIR)/swiss-skitouring.img
 
 
 all: $(foreach country,$(COUNTRIES),$(OUT_DIR)/osm-oa-$(country).img)
