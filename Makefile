@@ -169,6 +169,6 @@ cleanall: clean
 	rm -rf $(MKGMAP)
 
 .PHONY: clean cleanall
-.PRECIOUS: $(wildcard $(IN_DIR)/*) $(SPLITTER)/splitter.jar $(MKGMAP)/mkgmap.jar
+.PRECIOUS: $(IN_DIR)/% $(SPLITTER)/splitter.jar $(MKGMAP)/mkgmap.jar
 .PRECIOUS: $(WORK_DIR)/%/split $(WORK_DIR)/%/split-contour
 .PRECIOUS: $(OUT_DIR)/%.img
